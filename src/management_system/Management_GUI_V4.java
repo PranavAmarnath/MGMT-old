@@ -333,10 +333,10 @@ public class Management_GUI_V4 implements ActionListener {
 			JOptionPane.showMessageDialog(frame, "Hello there! Welcome to the Secres Management System.\nMade with Java Swing :P.");
 		}
 	}
-
+	/*
 	public static void disableWarning() {
 	    System.err.close();
 	    System.setErr(System.out);
 	}
-
+	*/
 }
