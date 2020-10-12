@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -77,7 +78,7 @@ public class NewStudent2 implements ActionListener {
 			}
 		}
 		if(content!="0" || name!="0") {
-			Management_GUI_V4.students.add(new Student(content, name, false));
+			Management_GUI_V4.students.add(new Student2(content, name, false, "0"));
 			/*for (int i = 0; i<Management_GUI_V4.students.size(); i++) {
 				System.out.print(Management_GUI_V4.students.get(i).id + " ");
 				System.out.print(Management_GUI_V4.students.get(i).name + " ");

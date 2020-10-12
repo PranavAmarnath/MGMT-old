@@ -1,9 +1,10 @@
 package management_system;
 
 import java.awt.*;
-import java.awt.List;
+import java.util.List;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -49,9 +50,10 @@ public class Management_GUI_V4 implements ActionListener {
 	private JMenuItem itemN, itemC, item1, item2, item3, item4, item5, item6, itemA;
 	private JTextField textField;
 	private JLabel lab1;
-	static ArrayList<Student> students = new ArrayList<Student>();
-	Instant[] start;
-	Instant[] end;
+	static ArrayList<Student2> students = new ArrayList<Student2>();
+	private Instant[] start;
+	private Instant[] end;
+	private Duration timeElapsed;
 	private boolean entered = false;
 	static SyntheticaDarkLookAndFeel dark;
 	static FlatDarkLaf dark2;
@@ -61,6 +63,12 @@ public class Management_GUI_V4 implements ActionListener {
 	// iconURL is null when not found
 	static ImageIcon icon = new ImageIcon(iconURL);
 	static Taskbar taskbar = Taskbar.getTaskbar();
+	// Delimiter used in CSV file
+    private static final String COMMA_DELIMITER = ",";
+    private static final String NEW_LINE_SEPARATOR = "\n";
+    // CSV file header
+    private static final String FILE_HEADER = "id,firstName,lastName,gender,age";
+	private static FileWriter fileWriter;
 
 	public Management_GUI_V4() {
 		try {
@@ -199,11 +207,42 @@ public class Management_GUI_V4 implements ActionListener {
 		frame.setVisible(true);
 		textField.requestFocus();
 
-		students.add(new Student("2231044", "Pranav Amarnath", false));
-		students.add(new Student("2191341", "Tarun Amarnath", false));
-		students.add(new Student("2231764", "Steve Mathew", false));
-		start = new Instant[1000];
-		end = new Instant[1000];
+		students.add(new Student2("2231044", "Pranav Amarnath", false, "0"));
+		students.add(new Student2("2191341", "Tarun Amarnath", false, "0"));
+		students.add(new Student2("2231764", "Steve Mathew", false, "0"));
+		
+		start = new Instant[10000];
+		end = new Instant[10000];
+
+	}
+	
+	public static void writeCsvFile(String filename) {
+		try {
+			fileWriter = new FileWriter(filename);
+	
+			//Write the CSV file header
+			fileWriter.write(FILE_HEADER.toString());
+	
+			//Add a new line separator after the header
+			fileWriter.append(NEW_LINE_SEPARATOR);
+	
+			//Write a new student object list to the CSV file
+			for(Student2 student : students) {
+				fileWriter.append(String.valueOf(student.id));
+				fileWriter.append(COMMA_DELIMITER);
+				fileWriter.append(student.name);
+				fileWriter.append(COMMA_DELIMITER);
+				fileWriter.append(String.valueOf(student.signedIn));
+				fileWriter.append(COMMA_DELIMITER);
+				fileWriter.append(String.valueOf(student.time));
+				fileWriter.append(NEW_LINE_SEPARATOR);
+	
+				fileWriter.flush();
+				fileWriter.close();
+			}
+		} catch (Exception e) {
+			System.out.println("Exception occurred");
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -225,7 +264,8 @@ public class Management_GUI_V4 implements ActionListener {
 						//textArea.append(content + "\n");
 						textArea.append("Signed out: " + students.get(i).name);
 						end[trackEvent] = Instant.now();
-						Duration timeElapsed = Duration.between(start[i], end[trackEvent]);
+						timeElapsed = Duration.between(start[i], end[trackEvent]);
+						students.get(i).time = students.get(i).time + Duration.between(start[i], end[trackEvent]);
 						textArea.append(":  " + timeElapsed + "\n");
 						students.get(i).signedIn = false;
 						entered = true;

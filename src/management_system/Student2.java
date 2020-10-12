@@ -1,17 +1,17 @@
 package management_system;
 
-import java.time.Duration;
-
-public class Student {
+public class Student2 {
 
 	String id;
 	String name;
 	boolean signedIn;
+	String time;
 	
-	public Student(String id, String name, boolean signedIn) {
+	public Student2(String id, String name, boolean signedIn, String time) {
 		this.id = id;
 		this.name = name;
 		this.signedIn = signedIn;
+		this.time = time;
 	}
 	
 }
