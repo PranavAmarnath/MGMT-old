@@ -20,7 +20,8 @@ public class NewStudent2 implements ActionListener {
 	public NewStudent2() {
 		frame = new JFrame();
 		frame.setTitle("Create New User");
-		frame.setBounds(100, 100, 400, 300);
+		frame.setSize(400, 300);
+		frame.setLocationByPlatform(true);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		if(UIManager.getLookAndFeel()!=Management_GUI_V4.dark && UIManager.getLookAndFeel()!=Management_GUI_V4.dark2) {
@@ -34,7 +35,7 @@ public class NewStudent2 implements ActionListener {
 		} catch (IOException e) { }*/
 		
 		panel = new JPanel();
-		panel.setBounds(0, 0, 400, 300);
+		panel.setSize(400, 300);
 		
 		if(UIManager.getLookAndFeel()!=Management_GUI_V4.dark && UIManager.getLookAndFeel()!=Management_GUI_V4.dark2) {
 			panel.setBackground(Color.WHITE);
@@ -78,7 +79,8 @@ public class NewStudent2 implements ActionListener {
 			}
 		}
 		if(content!="0" || name!="0") {
-			Management_GUI_V4.students.add(new Student2(content, name, false, "0"));
+			Student2 student = new Student2(content, name, false, "0");
+			Management_GUI_V4.students.add(student);
 			/*for (int i = 0; i<Management_GUI_V4.students.size(); i++) {
 				System.out.print(Management_GUI_V4.students.get(i).id + " ");
 				System.out.print(Management_GUI_V4.students.get(i).name + " ");
@@ -87,6 +89,7 @@ public class NewStudent2 implements ActionListener {
 			textField1.setText("");
 			textField2.setText("");
 			textField1.requestFocus();
+			Management_GUI_V4.writeCsvFile("data.csv");
 		}
 	}
 

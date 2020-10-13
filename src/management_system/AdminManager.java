@@ -27,7 +27,8 @@ public class AdminManager implements ActionListener {
 	public AdminManager() {
 		frame = new JFrame();
 		frame.setTitle("Admin Privileges Required");
-		frame.setBounds(100, 100, 400, 300);
+		frame.setSize(400, 300);
+		frame.setLocationByPlatform(true);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		if(UIManager.getLookAndFeel()!=Management_GUI_V4.dark && UIManager.getLookAndFeel()!=Management_GUI_V4.dark2) {
@@ -41,7 +42,7 @@ public class AdminManager implements ActionListener {
 		} catch (IOException e) { }*/
 		
 		panel = new JPanel();
-		panel.setBounds(0, 0, 400, 300);
+		panel.setSize(400, 300);
 		
 		if(UIManager.getLookAndFeel()!=Management_GUI_V4.dark && UIManager.getLookAndFeel()!=Management_GUI_V4.dark2) {
 			panel.setBackground(Color.WHITE);

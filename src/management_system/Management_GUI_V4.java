@@ -3,10 +3,12 @@ package management_system;
 import java.awt.*;
 import java.util.List;
 import java.awt.event.*;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.time.*;
 import java.util.*;
@@ -68,7 +70,7 @@ public class Management_GUI_V4 implements ActionListener {
     private static final String NEW_LINE_SEPARATOR = "\n";
     // CSV file header
     private static final String FILE_HEADER = "id,firstName,lastName,gender,age";
-	private static FileWriter fileWriter;
+	static PrintWriter out;
 
 	public Management_GUI_V4() {
 		try {
@@ -88,7 +90,7 @@ public class Management_GUI_V4 implements ActionListener {
 			frame.setTitle("Secres Management System (Metal)");
 		}
 
-		frame.setBounds(0, 0, 600, 500);
+		frame.setSize(600, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		if(UIManager.getLookAndFeel()==metal) {
@@ -119,7 +121,7 @@ public class Management_GUI_V4 implements ActionListener {
 		frame.setIconImage(icon.getImage());
 
 		panel = new JPanel();
-		panel.setBounds(0, 0, 600, 500);
+		panel.setSize(600, 500);
 
 		if(UIManager.getLookAndFeel()==metal) {
 			panel.setBackground(Color.WHITE);
@@ -131,13 +133,13 @@ public class Management_GUI_V4 implements ActionListener {
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(20, 40, 400, 300);
 		panel.add(scrollPane);
-
+		
 		textArea = new JTextArea();
 		scrollPane.setViewportView(textArea);
 		textArea.setEditable(false);
 
 		menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 600, 20);
+		menuBar.setSize(600, 20);
 
 		menu1 = new JMenu("File");
 		menu2 = new JMenu("View");
@@ -206,10 +208,12 @@ public class Management_GUI_V4 implements ActionListener {
 		frame.setJMenuBar(menuBar); // for picky mac users
 		frame.setVisible(true);
 		textField.requestFocus();
-
+		
+		/*
 		students.add(new Student2("2231044", "Pranav Amarnath", false, "0"));
 		students.add(new Student2("2191341", "Tarun Amarnath", false, "0"));
 		students.add(new Student2("2231764", "Steve Mathew", false, "0"));
+		*/
 		
 		start = new Instant[10000];
 		end = new Instant[10000];
@@ -217,31 +221,41 @@ public class Management_GUI_V4 implements ActionListener {
 	}
 	
 	public static void writeCsvFile(String filename) {
+		out = null;
+		
 		try {
-			fileWriter = new FileWriter(filename);
+			File file = new File(filename);
+			//System.out.println(file.getAbsolutePath());
+			FileWriter fileWriter = new FileWriter(file, true);
+			out = new PrintWriter(fileWriter);
 	
-			//Write the CSV file header
-			fileWriter.write(FILE_HEADER.toString());
+			// Write the CSV file header
+			//out.println(FILE_HEADER.toString());
+			
+			// Add a new line separator after the header
+			out.append(NEW_LINE_SEPARATOR);
 	
-			//Add a new line separator after the header
-			fileWriter.append(NEW_LINE_SEPARATOR);
+			// Write a new student object list to the CSV file
+			
+			//for(Student2 student : students) {
+				out.append(String.valueOf(students.get(students.size()-1).id));
+				out.append(COMMA_DELIMITER);
+				out.append(students.get(students.size()-1).name);
+				out.append(COMMA_DELIMITER);
+				out.append(String.valueOf(students.get(students.size()-1).signedIn));
+				out.append(COMMA_DELIMITER);
+				out.append(String.valueOf(students.get(students.size()-1).time));
 	
-			//Write a new student object list to the CSV file
-			for(Student2 student : students) {
-				fileWriter.append(String.valueOf(student.id));
-				fileWriter.append(COMMA_DELIMITER);
-				fileWriter.append(student.name);
-				fileWriter.append(COMMA_DELIMITER);
-				fileWriter.append(String.valueOf(student.signedIn));
-				fileWriter.append(COMMA_DELIMITER);
-				fileWriter.append(String.valueOf(student.time));
-				fileWriter.append(NEW_LINE_SEPARATOR);
-	
-				fileWriter.flush();
-				fileWriter.close();
-			}
+				out.flush();
+			//}
+			
+			out.flush();
 		} catch (Exception e) {
 			System.out.println("Exception occurred");
+		} finally {
+			if(out != null) {
+				out.close();
+			}
 		}
 	}
 
