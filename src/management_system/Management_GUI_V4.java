@@ -3,11 +3,14 @@ package management_system;
 import java.awt.*;
 import java.util.List;
 import java.awt.event.*;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.time.*;
@@ -70,7 +73,11 @@ public class Management_GUI_V4 implements ActionListener {
     private static final String NEW_LINE_SEPARATOR = "\n";
     // CSV file header
     private static final String FILE_HEADER = "id,firstName,lastName,gender,age";
-	static PrintWriter out;
+	static PrintWriter out, txtOut;
+	private boolean foundId;
+	//static URL url = Management_GUI_V4.class.getClassLoader().getResource("resources/idData.txt");
+	//InputStreamReader file = new InputStreamReader(url.openStream());
+	InputStream in = this.getClass().getResourceAsStream("resources/idData.txt");
 
 	public Management_GUI_V4() {
 		try {
@@ -251,11 +258,76 @@ public class Management_GUI_V4 implements ActionListener {
 			
 			out.flush();
 		} catch (Exception e) {
-			System.out.println("Exception occurred");
+			System.out.println("Exception occurred in writeCsvFile.");
 		} finally {
 			if(out != null) {
 				out.close();
 			}
+		}
+	}
+	
+	public static void writeTxtFile(String filename) {
+		txtOut = null;
+		
+		try {
+			File file = new File(filename);
+			//System.out.println(file.getAbsolutePath());
+			FileWriter fileWriter = new FileWriter(file, true);
+			txtOut = new PrintWriter(fileWriter);
+	
+			// Write the CSV file header
+			//txtOut.println(FILE_HEADER.toString());
+			
+			// Add a new line separator after the header
+			txtOut.append(NEW_LINE_SEPARATOR);
+	
+			// Write a new student object list to the CSV file
+			
+			//for(Student2 student : students) {
+				txtOut.append(String.valueOf(students.get(students.size()-1).id));
+				//txtOut.append(COMMA_DELIMITER);
+				//txtOut.append(students.get(students.size()-1).name);
+				//txtOut.append(NEW_LINE_SEPARATOR);
+	
+				txtOut.flush();
+			//}
+			
+			txtOut.flush();
+		} catch (Exception e) {
+			System.out.println("Exception occurred in writeTxtFile.");
+		} finally {
+			if(txtOut != null) {
+				txtOut.close();
+			}
+		}
+	}
+	
+	public void readTxtFile(String content) {
+		BufferedReader br;
+		try {
+			//FileReader file = new FileReader(filename);
+			//InputStreamReader file = new InputStreamReader(url.openStream());
+			//System.out.println(file.getAbsolutePath());
+			in = Thread.currentThread().getContextClassLoader().getResourceAsStream("idData.txt");
+			br = new BufferedReader(new InputStreamReader(in));
+			
+			String line = br.readLine();
+			int i = 0;
+			while(line != null) {
+				if(line.equals(content)) {
+					foundId = true;
+					//System.out.println(foundId + ", i: " + i + " content: " + content);
+					students.add(new Student2(content, content, false, "0"));
+					break;
+				}
+				line = br.readLine();
+				i++;
+			}
+			
+			br.close();
+		} catch (Exception e) {
+			//System.out.println("Exception occurred in readTxtFile.");
+			e.printStackTrace();
 		}
 	}
 
@@ -264,8 +336,9 @@ public class Management_GUI_V4 implements ActionListener {
 		if(e.getSource()==textField){
 			String content = textField.getText();
 			int i;
+			readTxtFile(content);
 			for(i=0; i<students.size(); i++) {
-				if(students.get(i).id.equals(content)) {
+				if(students.get(i).id.equals(content) && foundId) {
 					if(students.get(i).signedIn == false) {
 						textArea.append("Signed in: " + students.get(i).name + "\n");
 						start[i] = Instant.now();
@@ -280,7 +353,7 @@ public class Management_GUI_V4 implements ActionListener {
 						end[trackEvent] = Instant.now();
 						timeElapsed = Duration.between(start[i], end[trackEvent]);
 						students.get(i).time = students.get(i).time + Duration.between(start[i], end[trackEvent]);
-						textArea.append(":  " + timeElapsed + "\n");
+						textArea.append(" || Duration: " + timeElapsed + "\n");
 						students.get(i).signedIn = false;
 						entered = true;
 						break;

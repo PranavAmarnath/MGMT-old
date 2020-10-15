@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.time.Duration;
 
 import javax.imageio.ImageIO;
@@ -89,7 +90,8 @@ public class NewStudent2 implements ActionListener {
 			textField1.setText("");
 			textField2.setText("");
 			textField1.requestFocus();
-			Management_GUI_V4.writeCsvFile("data.csv");
+			Management_GUI_V4.writeCsvFile("resources/data.csv");
+			Management_GUI_V4.writeTxtFile("resources/idData.txt");
 		}
 	}
 
