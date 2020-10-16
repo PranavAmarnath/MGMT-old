@@ -37,13 +37,8 @@ public class Management_GUI_V4 implements ActionListener {
 	/*IF YOU READ THIS, PRANAV, WORK ON IT!!*/
 
 	/*
-	 1. Fix Exceptions (NumberFormatException, NullPointerException etc.)
-	 2. Implement text read/write
-	 3. Fix time signed in per person
-	 4. About Section
-	 5. Administrator privileges
-	 6. Add JMenu for Look & Feel
-	 7. Fix scrolling so that when new data entered scrolls to bottom
+	 1. Fix Exceptions (NumberFormatException, NullPointerException etc.) (as always)
+	 2. Implement text file read/write for JAR file.
 	*/
 
 	private JFrame frame;
@@ -74,10 +69,10 @@ public class Management_GUI_V4 implements ActionListener {
     // CSV file header
     private static final String FILE_HEADER = "id,firstName,lastName,gender,age";
 	static PrintWriter out, txtOut;
-	private boolean foundId;
+	static boolean foundId;
 	//static URL url = Management_GUI_V4.class.getClassLoader().getResource("resources/idData.txt");
 	//InputStreamReader file = new InputStreamReader(url.openStream());
-	InputStream in = this.getClass().getResourceAsStream("resources/idData.txt");
+	static InputStream in = Management_GUI_V4.class.getResourceAsStream("resources/idData.txt");
 
 	public Management_GUI_V4() {
 		try {
@@ -164,6 +159,7 @@ public class Management_GUI_V4 implements ActionListener {
 		menu1.add(itemN);
 		itemN.addActionListener(this);
 		itemN.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+		itemN.setToolTipText("Create new user");
 
 		itemC = new JMenuItem("Close");
 		menu1.add(itemC);
@@ -302,7 +298,7 @@ public class Management_GUI_V4 implements ActionListener {
 		}
 	}
 	
-	public void readTxtFile(String content) {
+	public static void readTxtFile(String content) {
 		BufferedReader br;
 		try {
 			//FileReader file = new FileReader(filename);
@@ -463,7 +459,7 @@ public class Management_GUI_V4 implements ActionListener {
 		}
 
 		else if(e.getSource()==itemA) {
-			JOptionPane.showMessageDialog(frame, "Hello there! Welcome to the Secres Management System.\nMade with Java Swing :P.");
+			JOptionPane.showMessageDialog(frame, "Hello there! Welcome to the Secres Management System.\nMade with Java Swing :P.", "About", 1);
 		}
 	}
 	/*
