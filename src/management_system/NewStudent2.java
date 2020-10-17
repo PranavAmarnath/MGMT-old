@@ -86,7 +86,6 @@ public class NewStudent2 implements ActionListener {
 				System.out.print(Management_GUI_V4.students.get(i).name + " ");
 				System.out.println(Management_GUI_V4.students.get(i).signedIn);
 		    }*/
-			/*
 			Management_GUI_V4.foundId = false;
 			Management_GUI_V4.readTxtFile(content);
 			if(Management_GUI_V4.foundId) {
@@ -95,13 +94,12 @@ public class NewStudent2 implements ActionListener {
 			if(retrievedId) {
 				JOptionPane.showMessageDialog(frame, "This id is already taken. Please contact your system administrator if there was an error.", "Id taken", 0);
 			}
-			*/
-			//else {
+			else {
 				Student2 student = new Student2(content, name, false, "0");
 				Management_GUI_V4.students.add(student);
 				Management_GUI_V4.writeTxtFile("resources/idData.txt");
 				Management_GUI_V4.writeCsvFile("resources/data.csv");
-			//}
+			}
 			textField1.setText("");
 			textField2.setText("");
 			textField1.requestFocus();

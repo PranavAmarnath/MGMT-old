@@ -37,8 +37,7 @@ public class Management_GUI_V4 implements ActionListener {
 	/*IF YOU READ THIS, PRANAV, WORK ON IT!!*/
 
 	/*
-	 1. Fix Exceptions (NumberFormatException, NullPointerException etc.) (as always)
-	 2. Implement text file read/write for JAR file.
+	Implement tasks on README
 	*/
 
 	private JFrame frame;
