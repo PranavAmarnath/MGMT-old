@@ -1,7 +1,5 @@
 package management_system;
 
-import java.time.Duration;
-
 public class Student {
 
 	String id;
