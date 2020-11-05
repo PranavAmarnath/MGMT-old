@@ -1,6 +1,10 @@
 package management_system;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.Duration;
@@ -15,11 +19,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class Management_GUI_V1 implements ActionListener {
 
 	private JFrame frame;
-	private JPanel panel;
+	private JPanel panel, panel2;
 	private JScrollPane scrollPane;
 	private JTextArea textArea;
 	private JMenuBar menuBar;
@@ -33,28 +38,30 @@ public class Management_GUI_V1 implements ActionListener {
 	public Management_GUI_V1() {
 		frame = new JFrame();
 		frame.setTitle("Secres Industries");
-		frame.setBounds(0, 0, 600, 500);
+		//frame.setBounds(0, 0, 600, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(Color.WHITE);
-		frame.setLayout(null);
+		frame.setMinimumSize(new Dimension(600, 500));
+		//frame.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBounds(0, 20, 600, 500);
+		//panel.setBounds(0, 20, 600, 500);
 		panel.setBackground(Color.WHITE);
-		panel.setLayout(null);
+		//panel.setLayout(null);
+		panel.setLayout(new BorderLayout());
 		frame.getContentPane().add(panel);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 40, 400, 300);
-		panel.add(scrollPane);
+		//scrollPane.setBounds(20, 40, 400, 300);
+		panel.add(scrollPane, BorderLayout.CENTER);
 		
 		textArea = new JTextArea();
 		scrollPane.setViewportView(textArea);
 		textArea.setEditable(false);
 		
 		menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 600, 20);
-		frame.getContentPane().add(menuBar);
+		//menuBar.setBounds(0, 0, 600, 20);
+		frame.getContentPane().add(menuBar, BorderLayout.NORTH);
 		
 		menu1 = new JMenu("File");
 		menu2 = new JMenu("Help");
@@ -71,15 +78,20 @@ public class Management_GUI_V1 implements ActionListener {
 		menu2.add(item2);
 		menu2.add(item3);
 		
-		textField = new JTextField();
-		textField.setBounds(20, 370, 300, 25);
-		textField.addActionListener(this);
-		panel.add(textField);
-		
+		panel2 = new JPanel();
+		panel2.setLayout(new BorderLayout());
+		panel2.setBackground(Color.WHITE);
+		panel.add(panel2, BorderLayout.SOUTH);
 		lab1 = new JLabel("Type id:");
-		lab1.setBounds(20, 350, 100, 20);
-		panel.add(lab1);
+		//lab1.setBounds(20, 350, 100, 20);
+		panel2.add(lab1, BorderLayout.NORTH);
 		
+		textField = new JTextField();
+		//textField.setBounds(20, 370, 300, 25);
+		textField.addActionListener(this);
+		panel2.add(textField, BorderLayout.SOUTH);
+		
+		frame.pack();
 		frame.setVisible(true);
 		textField.requestFocus();
 	}
@@ -109,7 +121,11 @@ public class Management_GUI_V1 implements ActionListener {
 	}
 	
 	public static void main(String[] args) {
-		new Management_GUI_V1();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				new Management_GUI_V1();
+			}
+		});
 	}
 
 }
