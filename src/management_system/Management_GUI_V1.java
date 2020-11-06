@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 
 public class Management_GUI_V1 implements ActionListener {
 
@@ -48,8 +49,9 @@ public class Management_GUI_V1 implements ActionListener {
 		//panel.setBounds(0, 20, 600, 500);
 		panel.setBackground(Color.WHITE);
 		//panel.setLayout(null);
-		panel.setLayout(new BorderLayout());
+		panel.setLayout(new BorderLayout(0, 20));
 		frame.getContentPane().add(panel);
+		panel.setBorder(new EmptyBorder(50, 50, 50, 50));
 		
 		scrollPane = new JScrollPane();
 		//scrollPane.setBounds(20, 40, 400, 300);
@@ -79,9 +81,11 @@ public class Management_GUI_V1 implements ActionListener {
 		menu2.add(item3);
 		
 		panel2 = new JPanel();
-		panel2.setLayout(new BorderLayout());
+		panel2.setLayout(new BorderLayout(0, 2));
 		panel2.setBackground(Color.WHITE);
 		panel.add(panel2, BorderLayout.SOUTH);
+		panel2.setBorder(new EmptyBorder(5, 50, 5, 50));
+		
 		lab1 = new JLabel("Type id:");
 		//lab1.setBounds(20, 350, 100, 20);
 		panel2.add(lab1, BorderLayout.NORTH);
